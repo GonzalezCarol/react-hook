@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import PageTitle from "../../components/layout/PageTitle";
+import useCallBackButtons from "./useCallbackButtons";
 
 const UseCallback = (props) => {
   const [count, setCount] = useState(0);
 
-  function inc(delta) {
-      setCount(count + delta) 
-  }
+  const inc = useCallback(
+    function inc(delta) {
+      //!passando uma funçao callback para o setCount eu não dependo mais do count e ai não vai renderizar de novo o component
+      setCount((current) => current + delta); //! current é o ultimo valor do estado (count)
+    },
+    [setCount] //! setCount vai ser criado apenas uma única vez entao vai renderizar só uma vez
+  );
+
   return (
     <div className="UseCallback">
       <PageTitle
@@ -15,11 +21,7 @@ const UseCallback = (props) => {
       />
       <div className="center">
         <span className="text">{count}</span>
-        <div>
-          <button className="btn" onClick={() => inc(6)}>6</button>
-          <button className="btn" onclick={() => inc(12)}>12</button>
-          <button className="btn" onClick={() => inc(18)}>18</button>
-        </div>
+        <useCallBackButtons inc={inc} />
       </div>
     </div>
   );

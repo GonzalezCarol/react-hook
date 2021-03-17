@@ -15,3 +15,6 @@ const useCallBackButtons = (props) => {
     </div>
   );
 };
+
+//* vai fazer um cache e so vai renderizar novamente quando as props forem alteradas
+export default React.memo(useCallBackButtons); 
